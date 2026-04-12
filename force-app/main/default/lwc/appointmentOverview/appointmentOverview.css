@@ -1,0 +1,62 @@
+.section {
+    padding: 16px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.divider {
+    border-top: 1px solid #eee;
+}
+
+.card {
+    background: #fff;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.upcoming-card {
+    background: #f0f8ff;
+    border-left: 4px solid #0176d3;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.badge {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 20px;
+}
+
+.upcoming-badge {
+    background: #e3f2fd;
+    color: #0176d3;
+}
+
+.completed-badge {
+    background: #e6f4ea;
+    color: #2e844a;
+}
+
+.notes {
+    color: #666;
+}
+
+.date {
+    font-size: 12px;
+    color: #888;
+}
+
+.empty {
+    color: #999;
+}
