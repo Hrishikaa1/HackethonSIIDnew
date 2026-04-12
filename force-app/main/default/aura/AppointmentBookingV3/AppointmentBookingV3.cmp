@@ -1,0 +1,7 @@
+<aura:component implements="force:lightningQuickAction,flexipage:availableForAllPageTypes,lightning:actionOverride"
+                access="global">
+
+    <!-- This line loads your LWC appointmentBooking component -->
+    <c:appointmentBooking></c:appointmentBooking>
+
+</aura:component>
