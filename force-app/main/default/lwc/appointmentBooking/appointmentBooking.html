@@ -1,0 +1,312 @@
+<template>
+    <lightning-card>
+        <!-- Header -->
+        <div slot="title">
+            <div class="slds-media slds-media_center">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="standard:event" size="small"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span>New Appointment</span>
+                    </h2>
+                    <p class="slds-text-body_small slds-text-color_weak">Schedule a patient visit in just a few steps</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="slds-m-around_medium">
+            <lightning-progress-indicator current-step={currentStepName} type="path" variant="base">
+                <lightning-progress-step label="Patient Type" value="1"></lightning-progress-step>
+                <lightning-progress-step label="Patient Details" value="2"></lightning-progress-step>
+                <lightning-progress-step label="Appointment" value="3"></lightning-progress-step>
+            </lightning-progress-indicator>
+        </div>
+
+        <!-- STEP 1: Patient Type Selection -->
+        <template if:true={isStep1}>
+            <div class="slds-p-around_medium">
+                <div class="slds-text-heading_small slds-m-bottom_small">
+                    <lightning-icon icon-name="utility:user" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                    Is this a new or existing patient?
+                </div>
+                
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <!-- New Patient Card -->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <article class="slds-card slds-card_boundary" style="cursor: pointer; border: 2px solid #e5e5e5;" 
+                                 data-type="new" onclick={handlePatientTypeSelect}
+                                 onmouseenter={handleCardHover} onmouseleave={handleCardLeave}>
+                            <div class="slds-card__body slds-card__body_inner slds-text-align_center slds-p-around_large">
+                                <div class="slds-m-bottom_medium">
+                                    <span class="slds-icon_container slds-icon-standard-contact" style="background-color: #f4f6f9; border-radius: 50%; width: 64px; height: 64px; display: inline-flex; align-items: center; justify-content: center;">
+                                        <lightning-icon icon-name="utility:add" size="large" alternative-text="New Patient"></lightning-icon>
+                                    </span>
+                                </div>
+                                <h3 class="slds-text-heading_small slds-m-bottom_x-small">New Patient</h3>
+                                <p class="slds-text-body_small slds-text-color_weak">Register the patient and book an appointment in one step</p>
+                            </div>
+                        </article>
+                    </div>
+                    
+                    <!-- Existing Patient Card -->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <article class="slds-card slds-card_boundary" style="cursor: pointer; border: 2px solid #e5e5e5;" 
+                                 data-type="existing" onclick={handlePatientTypeSelect}
+                                 onmouseenter={handleCardHover} onmouseleave={handleCardLeave}>
+                            <div class="slds-card__body slds-card__body_inner slds-text-align_center slds-p-around_large">
+                                <div class="slds-m-bottom_medium">
+                                    <span class="slds-icon_container slds-icon-standard-contact" style="background-color: #f4f6f9; border-radius: 50%; width: 64px; height: 64px; display: inline-flex; align-items: center; justify-content: center;">
+                                        <lightning-icon icon-name="utility:search" size="large" alternative-text="Existing Patient"></lightning-icon>
+                                    </span>
+                                </div>
+                                <h3 class="slds-text-heading_small slds-m-bottom_x-small">Existing Patient</h3>
+                                <p class="slds-text-body_small slds-text-color_weak">Search by name or Patient ID and book an appointment</p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- STEP 2: Patient Details -->
+        <template if:true={isStep2}>
+            <div class="slds-p-around_medium">
+                <!-- New Patient Form -->
+                <template if:true={isNewPatient}>
+                    <div class="slds-text-heading_small slds-m-bottom_small">
+                        <lightning-icon icon-name="utility:user" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                        New Patient Registration
+                    </div>
+                    <p class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium">
+                        Enter the patient's basic details. A patient record (Contact) will be created automatically.
+                    </p>
+                    
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning-input
+                                label="First Name"
+                                value={newPatient.firstName}
+                                onchange={handleNewPatientChange}
+                                data-field="firstName"
+                                placeholder="e.g. Priya"
+                                required>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning-input
+                                label="Last Name"
+                                value={newPatient.lastName}
+                                onchange={handleNewPatientChange}
+                                data-field="lastName"
+                                placeholder="e.g. Sharma"
+                                required>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning-input
+                                label="Phone Number"
+                                type="tel"
+                                value={newPatient.phone}
+                                onchange={handleNewPatientChange}
+                                data-field="phone"
+                                placeholder="e.g. +91 98765 43210"
+                                required>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning-input
+                                label="Email Address"
+                                type="email"
+                                value={newPatient.email}
+                                onchange={handleNewPatientChange}
+                                data-field="email"
+                                placeholder="e.g. priya@email.com"
+                                required>
+                            </lightning-input>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Existing Patient Search -->
+                <template if:true={isExistingPatient}>
+                    <div class="slds-text-heading_small slds-m-bottom_small">
+                        <lightning-icon icon-name="utility:search" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                        Search Patient
+                    </div>
+                    <p class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium">
+                        Search for an existing patient by name or Patient ID.
+                    </p>
+                    
+                    <lightning-input
+                        type="search"
+                        label="Patient Name or ID"
+                        value={patientSearchTerm}
+                        onchange={handlePatientSearchChange}
+                        placeholder="Type at least 2 characters to search...">
+                    </lightning-input>
+                    
+                    <template if:true={hasPatientResults}>
+                        <div class="slds-box slds-m-top_small" style="max-height: 300px; overflow-y: auto;">
+                            <template for:each={patientResults} for:item="patient">
+                                <div key={patient.Id} 
+                                     class="slds-media slds-media_center slds-p-around_small slds-border_bottom" 
+                                     style="cursor: pointer;"
+                                     data-id={patient.Id}
+                                     onclick={handlePatientSelect}>
+                                    <div class="slds-media__figure">
+                                        <lightning-icon icon-name="standard:contact" size="small"></lightning-icon>
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <div class="slds-text-body_regular">{patient.Name}</div>
+                                        <div class="slds-text-body_small slds-text-color_weak">ID: {patient.Patient_ID__c}</div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                    
+                    <template if:true={selectedPatientId}>
+                        <div class="slds-box slds-box_small slds-theme_success slds-m-top_small">
+                            <div class="slds-media slds-media_center">
+                                <div class="slds-media__figure">
+                                    <lightning-icon icon-name="utility:success" size="small" variant="inverse"></lightning-icon>
+                                </div>
+                                <div class="slds-media__body">
+                                    <span class="slds-text-body_regular">Selected: <strong>{selectedPatientName}</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+
+                <!-- Navigation Buttons -->
+                <div class="slds-m-top_large slds-grid slds-grid_align-spread">
+                    <lightning-button
+                        label="Back"
+                        icon-name="utility:back"
+                        onclick={handleBackToStep1}>
+                    </lightning-button>
+                    <lightning-button
+                        label="Next: Appointment Details"
+                        variant="brand"
+                        icon-name="utility:forward"
+                        icon-position="right"
+                        onclick={handleNextToAppointment}>
+                    </lightning-button>
+                </div>
+            </div>
+        </template>
+
+        <!-- STEP 3: Appointment Details -->
+        <template if:true={isStep3}>
+            <div class="slds-p-around_medium">
+                <div class="slds-text-heading_small slds-m-bottom_small">
+                    <lightning-icon icon-name="utility:event" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                    Appointment Details
+                </div>
+                <p class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium">
+                    Select the department, doctor, date, time slot, and provide visit reason for the appointment.
+                </p>
+                
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <!-- Department Selection -->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning-combobox
+                            label="Department"
+                            value={appointment.department}
+                            options={departmentOptions}
+                            onchange={handleDepartmentChange}
+                            placeholder="Select a department"
+                            required>
+                        </lightning-combobox>
+                    </div>
+                    
+                    <!-- Doctor Selection (depends on department) -->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning-combobox
+                            label="Select Doctor"
+                            value={appointment.doctorId}
+                            options={doctorOptions}
+                            onchange={handleDoctorChange}
+                            placeholder={doctorPlaceholder}
+                            disabled={isDoctorDisabled}
+                            required>
+                        </lightning-combobox>
+                    </div>
+                    
+                    <!-- Appointment Date -->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning-input
+                            type="date"
+                            label="Appointment Date"
+                            value={appointment.appointmentDate}
+                            onchange={handleDateChange}
+                            required>
+                        </lightning-input>
+                    </div>
+                    
+                    <!-- Time Slot -->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning-combobox
+                            label="Time Slot"
+                            value={appointment.slotTime}
+                            options={slotOptions}
+                            onchange={handleSlotChange}
+                            placeholder="Select time slot"
+                            disabled={isSlotDisabled}
+                            required>
+                        </lightning-combobox>
+                    </div>
+                    
+                    <!-- Visit Reason (replaces Notes) -->
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-textarea
+                            label="Visit Reason"
+                            value={appointment.visitReason}
+                            onchange={handleVisitReasonChange}
+                            placeholder="Please describe the reason for visit, symptoms, or any special requirements..."
+                            required>
+                        </lightning-textarea>
+                    </div>
+                </div>
+                
+                <template if:true={showNoSlotsMessage}>
+                    <div class="slds-box slds-box_small slds-theme_warning slds-m-top_small">
+                        <div class="slds-media slds-media_center">
+                            <div class="slds-media__figure">
+                                <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+                            </div>
+                            <div class="slds-media__body">
+                                <span>No available slots for the selected date. Please choose another date.</span>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Navigation Buttons -->
+                <div class="slds-m-top_large slds-grid slds-grid_align-spread">
+                    <lightning-button
+                        label="Back"
+                        icon-name="utility:back"
+                        onclick={handleBackToStep2}>
+                    </lightning-button>
+                    <lightning-button
+                        label="Book Appointment"
+                        variant="brand"
+                        icon-name="utility:check"
+                        icon-position="right"
+                        onclick={handleSave}
+                        disabled={isSaveDisabled}>
+                    </lightning-button>
+                </div>
+            </div>
+        </template>
+
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+        </template>
+
+    </lightning-card>
+</template>

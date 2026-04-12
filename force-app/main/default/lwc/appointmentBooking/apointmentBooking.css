@@ -1,0 +1,136 @@
+/* Minimal custom styles - most styling is handled by SLDS utility classes */
+
+/* Card hover transition */
+.slds-card {
+    transition: all 0.2s ease;
+}
+
+/* Ensure proper spacing for icons in media objects */
+.slds-media__figure {
+    flex-shrink: 0;
+}
+
+/* Custom styling for patient type cards on hover */
+article.slds-card:hover {
+    border-color: #0070d2 !important;
+    box-shadow: 0 4px 8px rgba(0, 112, 210, 0.15) !important;
+    transform: translateY(-2px);
+}
+
+/* Icon container styling */
+.slds-icon_container {
+    transition: background-color 0.2s ease;
+}
+
+article.slds-card:hover .slds-icon_container {
+    background-color: #e1f0ff !important;
+}
+
+/* Search result hover effect */
+.slds-media:hover {
+    background-color: #f4f6f9;
+}
+
+/* Smooth transitions */
+* {
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Department and Doctor combobox styling */
+lightning-combobox[disabled] {
+    opacity: 0.7;
+}
+
+/* Visit Reason textarea styling */
+lightning-textarea {
+    margin-top: 0.5rem;
+}
+
+/* Required field indicator */
+lightning-input[required] .slds-form-element__label:after,
+lightning-combobox[required] .slds-form-element__label:after,
+lightning-textarea[required] .slds-form-element__label:after {
+    content: '*';
+    color: rgb(194, 57, 52);
+    margin-left: 0.25rem;
+}
+
+/* Smooth transitions for all form elements */
+lightning-combobox,
+lightning-input,
+lightning-textarea {
+    transition: all 0.2s ease;
+}
+
+/* Warning box styling */
+.slds-theme_warning {
+    background-color: #fff3e0;
+    border-color: #ff9800;
+}
+
+/* Success box styling */
+.slds-theme_success {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+}
+
+/* Box shadow for better visual hierarchy */
+.slds-box {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .slds-p-around_medium {
+        padding: 0.75rem;
+    }
+    
+    .slds-card__body_inner {
+        padding: 1rem;
+    }
+}
+
+/* Focus styles for accessibility */
+lightning-combobox:focus,
+lightning-input:focus,
+lightning-textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 112, 210, 0.2);
+}
+
+/* Disabled state styling */
+lightning-combobox[disabled] .slds-combobox__input {
+    background-color: #f4f6f9;
+    cursor: not-allowed;
+}
+
+/* Required field asterisk color */
+.slds-required {
+    color: rgb(194, 57, 52);
+}
+
+/* Enhanced card hover effects */
+.slds-card_boundary:hover {
+    border-color: #0070d2;
+    transition: all 0.3s ease;
+}
+
+/* Search results container scrollbar styling */
+.slds-box::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.slds-box::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.slds-box::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.slds-box::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}

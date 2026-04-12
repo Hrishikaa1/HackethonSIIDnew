@@ -1,0 +1,36 @@
+<template>
+    <lightning-card>
+        <div class="section">
+
+            <div class="section-header">
+                <h2>Completed Appointments</h2>
+                <span>{completed.length}</span>
+            </div>
+
+            <template if:true={completed.length}>
+                <template for:each={completed} for:item="row">
+                    <div key={row.Id} class="card">
+
+                        <div class="card-header">
+                            <a href={row.appointmentUrl} target="_blank">
+                                {row.Name}
+                            </a>
+                            <span class="badge completed-badge">Completed</span>
+                        </div>
+
+                        <p><strong>Doctor:</strong> {row.doctorName}</p>
+
+                        <p class="notes">
+                            <strong>Visit Reason: </strong> {row.Visit_Reason__c}
+                        </p>
+
+                            <p class="notes">
+                                <strong>Medical Notes: </strong> {row.Medical_Notes__c}
+                            </p>
+                    </div>
+                </template>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>
