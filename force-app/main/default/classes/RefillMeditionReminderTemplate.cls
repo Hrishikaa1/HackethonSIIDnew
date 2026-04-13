@@ -31,17 +31,11 @@ public class RefillMeditionReminderTemplate {
             WHERE Id IN :prescriptionIds
         ];
         
+        system.debug('prescriptions: '+prescriptions);
+        
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
         
         for (Prescription__c pres : prescriptions) {
-            
-            if (pres.Reminder_Sent__c == true) {
-                continue;
-            }
-            
-            if (pres.Patient__r == null || pres.Patient__r.Email == null) {
-                continue;
-            }
             
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
             

@@ -1,6 +1,6 @@
 public class AppointmentReminderWithoutTemplate {
     
-    @InvocableMethod(label='Send Appointment Confirmation Email (No Template)')
+    @InvocableMethod(label='Send Appointment Confirmation Email')
     public static void sendEmails(List<Id> appointmentIds) {
         
         if (appointmentIds == null || appointmentIds.isEmpty()) {

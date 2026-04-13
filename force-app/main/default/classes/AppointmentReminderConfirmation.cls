@@ -19,6 +19,7 @@ public class AppointmentReminderConfirmation {
             Name,
             Appointment_Date__c,
             Slot_Start__c,
+            Slot_Time__c,
             Slot_End__c,
             Patient__c,
             Patient__r.Name,
@@ -40,24 +41,17 @@ public class AppointmentReminderConfirmation {
                 
                 mail.setToAddresses(new List<String>{ appt.Patient__r.Email });
                 
-                mail.setSubject('Your Appointment is Confirmed – Apollo Care');
+                mail.setSubject('Reminder: Your Upcoming Appointment with Apollo Care');
                 
                 mail.setOrgWideEmailAddressId(owea.Id);
                 
                 String dateStr = '';
-                String timeStr = '';
                 
                 if (appt.Appointment_Date__c != null) {
                     dateStr = DateTime.newInstance(
                         appt.Appointment_Date__c,
                         Time.newInstance(0, 0, 0, 0)
                     ).format('dd MMM yyyy');
-                }
-                
-                if (appt.Slot_Start__c != null && appt.Slot_End__c != null) {
-                    timeStr = appt.Slot_Start__c.format('hh:mm a') + 
-                        ' - ' + 
-                        appt.Slot_End__c.format('hh:mm a');
                 }
                 
                 String body = ''
@@ -69,9 +63,9 @@ public class AppointmentReminderConfirmation {
                     
                     + '<p><b>Appointment Details:</b></p>'
                     
-                    + '<p><b>Date:</b> ' + dateStr + '</p>'
-                    + '<p><b>Time:</b> ' + timeStr + '</p>'
-                    + '<p><b>Doctor:</b> ' + appt.Doctor__r.Name + '</p>'
+                    + '<p><b>Date: </b> ' + dateStr + '</p>'
+                    + '<p><b>Time slot: </b> ' + appt.Slot_Time__c + '</p>'
+                    + '<p><b>Doctor: </b> ' + appt.Doctor__r.Name + '</p>'
                     
                     + '<p>'
                     + 'Please make sure to arrive at least 10 minutes early to allow time for check-in.'
@@ -93,6 +87,7 @@ public class AppointmentReminderConfirmation {
             }
         }
         
+        system.debug('emailList: '+emailList);
         if (!emailList.isEmpty()) {
             Messaging.sendEmail(emailList);
         }

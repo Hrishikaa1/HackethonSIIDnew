@@ -142,11 +142,19 @@ public with sharing class rescheduleAppointmentController {
             '<p>If you have any questions, please contact us.</p>' +
             '<p>Regards,<br/>Apollo Care</p>';
 
+		OrgWideEmailAddress owea = [
+            SELECT Id, Address, DisplayName
+            FROM OrgWideEmailAddress
+            WHERE DisplayName = 'Apollo Care'
+            LIMIT 1
+        ];
+
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
         mail.setTargetObjectId(original.Patient__c);  // Contact Id
         mail.setSubject(subject);
         mail.setHtmlBody(htmlBody);
         mail.setSaveAsActivity(false);
+		mail.setOrgWideEmailAddressId(owea.Id);
 
         try {
             Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
